@@ -61,7 +61,7 @@ namespace mp4v2 { namespace impl {
 /// not match.
 ///
 /// This template implementation itself should never be exposed. That is
-/// to say, the .tcc file must not be used by code outside this library.
+/// to say, the .inl file must not be used by code outside this library.
 ///
 /// WARNING: since enum types are typically made static file scope,
 /// care must be taken to make sure Entry data[] initialization occurs
@@ -105,6 +105,6 @@ public:
 
 }} // namespace mp4v2::impl
 
-#include "enum.tcc"
+#include "enum.inl"
 
 #endif // MP4V2_IMPL_ENUM_H
