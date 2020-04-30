@@ -38,8 +38,14 @@ Exception::Exception( const string&     what_,
     , line(line_)
     , function(function_)
 {
-    ASSERT(file_);
-    ASSERT(function_);
+  mp4v2::impl::log.warningf(
+    "Warning: %s threw an Exception [%s] %s:%d",
+    function_,
+    what_.c_str(),
+    file_,
+    line_);
+  ASSERT(file_);
+  ASSERT(function_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

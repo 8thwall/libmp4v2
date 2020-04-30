@@ -2236,16 +2236,11 @@ MP4FileHandle MP4ReadProvider( const char* fileName, const MP4FileProvider* file
         MP4FileHandle hFile, MP4TrackId trackId)
     {
         if (MP4_IS_VALID_FILE_HANDLE(hFile)) {
-            try {
-                return ((MP4File*)hFile)->FindTrackIndex(trackId);
-            }
-            catch( Exception* x ) {
-                mp4v2::impl::log.errorf(*x);
-                delete x;
-            }
-            catch( ... ) {
-                mp4v2::impl::log.errorf( "%s: failed", __FUNCTION__ );
-            }
+          auto index = ((MP4File*)hFile)->MaybeFindTrackIndex(trackId);
+          if (index.has_value()) {
+            return index.value();
+          }
+          mp4v2::impl::log.errorf( "%s: failed", __FUNCTION__ );
         }
         return (uint16_t)-1;
     }

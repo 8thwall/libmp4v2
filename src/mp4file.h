@@ -146,6 +146,7 @@ public:
     MP4TrackId FindTrackId(uint16_t trackIndex,
                            const char* type = NULL, uint8_t subType = 0);
     uint16_t FindTrackIndex(MP4TrackId trackId);
+    std::optional<uint16_t> MaybeFindTrackIndex(MP4TrackId trackId);
     uint16_t FindTrakAtomIndex(MP4TrackId trackId);
 
     /* track properties */
