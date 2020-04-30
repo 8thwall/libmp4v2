@@ -2857,13 +2857,9 @@ MP4TrackId MP4File::AllocTrackId()
 
     if (trackId <= 0xFFFF) {
         // check that nextTrackid is correct
-        try {
-            (void)FindTrackIndex(trackId);
-            // ERROR, this trackId is in use
-        }
-        catch (Exception* x) {
+        auto index = MaybeFindTrackIndex(trackId);
+        if (!index.has_value()) {
             // OK, this trackId is not in use, proceed
-            delete x;
             SetIntegerProperty("moov.mvhd.nextTrackId", trackId + 1);
             return trackId;
         }
@@ -2871,13 +2867,9 @@ MP4TrackId MP4File::AllocTrackId()
 
     // we need to search for a track id
     for (trackId = 1; trackId <= 0xFFFF; trackId++) {
-        try {
-            (void)FindTrackIndex(trackId);
-            // KEEP LOOKING, this trackId is in use
-        }
-        catch (Exception* x) {
+        auto index = MaybeFindTrackIndex(trackId);
+        if (!index.has_value()) {
             // OK, this trackId is not in use, proceed
-            delete x;
             return trackId;
         }
     }
@@ -2938,6 +2930,16 @@ uint16_t MP4File::FindTrackIndex(MP4TrackId trackId)
     msg << "Track id " << trackId << " doesn't exist";
     throw new Exception(msg.str(),__FILE__, __LINE__, __FUNCTION__);
     return (uint16_t)-1; // satisfy MS compiler
+}
+
+std::optional<uint16_t> MP4File::MaybeFindTrackIndex(MP4TrackId trackId)
+{
+    for (uint32_t i = 0; i < m_pTracks.Size() && i <= 0xFFFF; i++) {
+        if (m_pTracks[i]->GetId() == trackId) {
+            return (uint16_t)i;
+        }
+    }
+    return {};
 }
 
 uint16_t MP4File::FindTrakAtomIndex(MP4TrackId trackId)
