@@ -33,8 +33,6 @@
 #ifndef MP4V2_IMPL_MP4FILE_H
 #define MP4V2_IMPL_MP4FILE_H
 
-#include <optional>
-
 namespace mp4v2 { namespace impl {
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -148,7 +146,7 @@ public:
     MP4TrackId FindTrackId(uint16_t trackIndex,
                            const char* type = NULL, uint8_t subType = 0);
     uint16_t FindTrackIndex(MP4TrackId trackId);
-    std::optional<uint16_t> MaybeFindTrackIndex(MP4TrackId trackId);
+    bool TrackIndexExists(MP4TrackId trackId);
     uint16_t FindTrakAtomIndex(MP4TrackId trackId);
 
     /* track properties */
