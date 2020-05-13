@@ -2236,9 +2236,9 @@ MP4FileHandle MP4ReadProvider( const char* fileName, const MP4FileProvider* file
         MP4FileHandle hFile, MP4TrackId trackId)
     {
         if (MP4_IS_VALID_FILE_HANDLE(hFile)) {
-          auto index = ((MP4File*)hFile)->MaybeFindTrackIndex(trackId);
-          if (index.has_value()) {
-            return index.value();
+          MP4File* phFile = reinterpret_cast<MP4File*>(hFile);
+          if (phFile->TrackIndexExists(trackId)) {
+            return phFile->FindTrackIndex(trackId);
           }
           mp4v2::impl::log.errorf( "%s: failed", __FUNCTION__ );
         }
