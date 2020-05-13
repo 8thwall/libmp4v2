@@ -33,6 +33,8 @@
 #ifndef MP4V2_IMPL_MP4FILE_H
 #define MP4V2_IMPL_MP4FILE_H
 
+#include <optional>
+
 namespace mp4v2 { namespace impl {
 
 ///////////////////////////////////////////////////////////////////////////////
